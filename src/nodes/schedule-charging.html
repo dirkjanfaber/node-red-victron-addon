@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('victron-scheduled-charging',{
+    RED.nodes.registerType('victron-schedule-charging',{
         category: 'Victron Energy',
         color: '#f7ab3e',
         defaults: {
@@ -14,14 +14,14 @@
     });
 </script>
 
-<script type="text/html" data-template-name="victron-scheduled-charging">
+<script type="text/html" data-template-name="victron-schedule-charging">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 </script>
 
-<script type="text/html" data-help-name="victron-scheduled-charging">
+<script type="text/html" data-help-name="victron-schedule-charging">
     <p>
         This node leans on <a href="https://flows.nodered.org/node/@victronenergy/node-red-contrib-victron">@victronenergy/node-red-contrib-victron</a>
         for creating a schedule on a user-friendly way.
@@ -75,7 +75,7 @@
     </p>
 
     <p>
-        Under the hood the scheduled charging node uses the dbus paths of service <tt>com.victronenergy.settings</tt>:
+        Under the hood the schedule charging node uses the dbus paths of service <tt>com.victronenergy.settings</tt>:
     </p>
     <ul>
        <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/AllowDischarge</tt></li>

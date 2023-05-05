@@ -1,5 +1,5 @@
 module.exports = function (RED) {
-  function ScheduledChargingNode (config) {
+  function ScheduleChargingNode (config) {
     RED.nodes.createNode(this, config)
     const node = this
 
@@ -86,5 +86,5 @@ module.exports = function (RED) {
       done()
     })
   }
-  RED.nodes.registerType('victron-scheduled-charging', ScheduledChargingNode)
+  RED.nodes.registerType('victron-schedule-charging', ScheduleChargingNode)
 }
