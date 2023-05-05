@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    RED.nodes.registerType('victron-scheduled-charging',{
+        category: 'Victron Energy',
+        color: '#f7ab3e',
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "victronenergy.svg",
+        label: function() {
+            return this.name||"Scheduled Charging";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="victron-scheduled-charging">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="victron-scheduled-charging">
+    <p>
+        This node leans on <a href="https://flows.nodered.org/node/@victronenergy/node-red-contrib-victron">@victronenergy/node-red-contrib-victron</a>
+        for creating a schedule on a user-friendly way.
+    </p>
+   
+    <p>It expects an incomming message, containing:</p>
+   
+    
+    <ul>
+        <li><code>msg.active</code> - Whether or not to activate the schedule. When _false_, it will disable first schedule (unless <code>msg.slot</code> has been set, in which case it disables that slot)</li>
+    </ul>
+    
+    <p>Two of the following three values are needed, when <code>msg.active</code> has been set to <i>true</i>:</p>
+
+    <ul>
+        <li><code>msg.start</code> - Seconds since the start of the day to start schedule.</li>
+        <li><code>msg.end</code> - Seconds since the start of the day to end the schedule.</li>
+        <li><code>msg.duration</code> - Time in seconds the schedule should last.</li>
+    </ul>
+
+    <p>
+        Note that the <code>msg.start</code> and <code>msg.end</code> are formatted in seconds since the beginning of the day. So 2:30 at night will 
+        become <tt>9000</tt>.
+    </p>
+
+    <p>Optional other inputs:</p>
+
+    <ul>
+        <li><code>msg.soc</code> - The desired sate of charge, ranging from <tt>0</tt> to <tt>100</tt>>. Defaults to <tt>100</tt> when not given.</li>
+        <li><code>msg.day</code> - Default, the schedule will be set to be active daily (value <tt>7</tt>). But this can be overruled by inserting a different value here, using the values:</li>
+          <ul>
+            <li><tt>0</tt> - Sunday</li>
+            <li><tt>1</tt> - Monday</li>
+            <li><tt>2</tt> - Tuesday</li>
+            <li><tt>3</tt> - Wednesday</li>
+            <li><tt>4</tt> - Thursday</li>
+            <li><tt>5</tt> - Friday</li>
+            <li><tt>6</tt> - Saturday</li>
+            <li><tt>7</tt> - Every day</li>
+            <li><tt>8</tt> - Weekdays</li>
+            <li><tt>9</tt> - Weekends</li>
+          </ul>
+        <li><code>msg.duration</code> - Duration of the schedule (in seconds)</li>
+        <li><code>msg.slot</code> - The schedule slot to use (<tt>0</tt> - <tt>4</tt>). Defaults to the first slot (<tt>0</tt>)</li>
+     
+ </ul>   
+    <p>
+        This node has been made to work closely together with the <a href="https://flows.nodered.org/node/node-red-contrib-eskomsepush">EskomPush API</a> node. So if the
+        input contains the <code>msg.LoadShedding</code> field, it will make the schedule fit insert a
+        scheduled charge to fill the battery before the next load shedding event or schedule will become active. It will only add a schedule while loadshedding is not active.
+    </p>
+
+    <p>
+        Under the hood the scheduled charging node uses the dbus paths of service <tt>com.victronenergy.settings</tt>:
+    </p>
+    <ul>
+       <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/AllowDischarge</tt></li>
+       <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Duration</tt></li>
+       <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Soc</tt></li>
+       <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Day</tt></li>
+       <li><tt>/Settings/CGwacs/BatteryLife/Schedule/Charge/0/Start</tt></li>
+    </ul>
+
+    <h3>Status</h3>
+    
+    <p>
+       After receiving correct input, the status will become green, showing an "<i>Ok</i>". If the input
+       was unexpected, the status becomes red and the text should give a clue on what went wrong.
+    </p>
+    
+</script>

@@ -1,0 +1,36 @@
+{
+  "name": "node-red-victron-addon",
+  "version": "0.0.1",
+  "description": "Addon node(s) to use with node-red-contrib-victron",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard --fix"
+  },
+  "keywords": [
+    "node-red",
+    "victron",
+    "schedule charging",
+    "ess"
+  ],
+  "author": "Dirk-Jan Faber <dfaber@victronenergy.com>",
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "schedule-charging": "./src/nodes/schedule-charging.js"
+    },
+    "version": ">=3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dirkjanfaber/node-red-victron-addon"
+  },
+  "dependencies": {
+    "@victronenergy/node-red-contrib-victron": "1.4.23"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=14.17.4"
+  }
+}
